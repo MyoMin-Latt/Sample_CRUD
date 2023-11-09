@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sample_crud/contact/domain/contact.dart';
 import 'package:flutter_sample_crud/contact/shared/contact_provider.dart';
 import 'package:flutter_sample_crud/core/presentation/router/app_router.gr.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,7 +14,7 @@ class ContactPage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<ContactPage> {
-  // List<Contact> contactList = [];
+  List<Contact> contactList = [];
   @override
   void initState() {
     super.initState();
@@ -35,7 +36,7 @@ class _HomePageState extends ConsumerState<ContactPage> {
           initial: () => debugPrint('contactNotifierProvider/ initial'),
           loading: () {
             debugPrint('contactNotifierProvider/ loading');
-            // contactList.clear();
+            contactList.clear();
           },
           noConnection: () =>
               debugPrint('contactNotifierProvider/ noConnection'),
@@ -43,16 +44,14 @@ class _HomePageState extends ConsumerState<ContactPage> {
           success: (data) {
             debugPrint('contactNotifierProvider/ success');
             debugPrint('contactNotifierProvider/ $data');
-            ref.read(contactListProvider).addAll(data);
-            // for (var element in data) {
-            //   contactList.add(element);
-            // }
+            for (var element in data) {
+              contactList.add(element);
+            }
           },
           error: (error) => debugPrint('contactNotifierProvider/ error'),
         );
       },
     );
-    final contactList = ref.watch(contactListProvider.notifier).contacts;
 
     return Scaffold(
       appBar: AppBar(
@@ -99,9 +98,8 @@ class _HomePageState extends ConsumerState<ContactPage> {
                     ref
                         .read(saveContactNotifierProvider.notifier)
                         .deleteContact(contactList[index].id);
-                    ref.read(contactListProvider).deleteByIndex(index);
                     setState(() {
-                      // contactList.removeAt(index);
+                      contactList.removeAt(index);
                     });
                   },
                   icon: const Icon(Icons.delete)),
