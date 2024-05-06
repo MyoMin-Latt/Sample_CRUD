@@ -55,7 +55,7 @@ class _HomePageState extends ConsumerState<ContactPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sample CRUD'),
+        title: const Text('Sample With Mock Api'),
         actions: [
           IconButton(
             onPressed: () =>
@@ -83,9 +83,7 @@ class _HomePageState extends ConsumerState<ContactPage> {
             ],
           ),
         ),
-        empty: () => const Center(
-          child: Text('No Data'),
-        ),
+        empty: () => const Center(child: Text('No Data')),
         success: (contacts) => ListView.builder(
           itemCount: contactList.length,
           itemBuilder: (context, index) => Card(
